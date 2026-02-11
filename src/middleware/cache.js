@@ -11,6 +11,11 @@ const cache = (duration = 300) => {
       return next();
     }
 
+    // Skip caching if Redis is not connected
+    if (!redisClient.isOpen) {
+      return next();
+    }
+
     // Create cache key from request URL and query parameters
     const cacheKey = `cache:${req.originalUrl || req.url}`;
 

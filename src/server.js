@@ -18,9 +18,15 @@ const startServer = async () => {
       console.log('✅ Database models synchronized.');
     }
 
-    // Test Redis connection
-    await redisClient.connect();
-    console.log('✅ Redis connection established successfully.');
+    // Test Redis connection (optional - won't crash if Redis is unavailable)
+    try {
+      await redisClient.connect();
+      console.log('✅ Redis connection established successfully.');
+    } catch (redisError) {
+      console.warn('⚠️  Redis not available - caching will be disabled');
+      console.warn('⚠️  Redis error:', redisError.message);
+      // Continue without Redis - app will work without caching
+    }
 
     // Start the Express server
     app.listen(PORT, () => {
