@@ -321,27 +321,27 @@ MIT License
 
 ## 👨‍💻 Author
 
-**Your Name**
-- Email: your.email@example.com
-- GitHub: [@your-username](https://github.com/your-username)
+**Cavid Aliyev**
+- GitHub: [@Cavid0](https://github.com/Cavid0)
+- Project: Countries and Cities RESTful API
+- Year: 2026
 
 ---
 
 ## 🔗 Links
 
 ### 🌐 Live Application
-- **Live API:** https://your-api.railway.app
-- **Swagger Documentation:** https://your-api.railway.app/api-docs
-- **Health Check:** https://your-api.railway.app/health
+- **Live API:** https://countries-cities-api-1.onrender.com
+- **Swagger Documentation:** https://countries-cities-api-1.onrender.com/api-docs
+- **Health Check:** https://countries-cities-api-1.onrender.com/health
 
 ### 📦 Resources
-- **GitHub Repository:** https://github.com/your-username/api
-- **Postman Collection:** https://documenter.getpostman.com/view/your-collection-id
-- **Postman Workspace:** https://www.postman.com/your-workspace
+- **GitHub Repository:** https://github.com/Cavid0/countries-cities-api
+- **Postman Collection:** (Create and add URL after testing)
 
 ### 📊 Project Stats
-- **Total Countries:** 10+ (expandable to 250+)
-- **Total Cities:** 19+ (expandable)
+- **Total Countries:** 10
+- **Total Cities:** 19
 - **API Endpoints:** 15+
 - **Documentation:** Complete
 - **Tests:** API tested via Swagger & Postman
