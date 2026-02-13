@@ -84,7 +84,7 @@ app.get('/', (req, res) => {
     success: true,
     message: 'Welcome to Countries and Cities API',
     version: '1.0.0',
-    author: 'Cavid Aliyev',
+    author: 'Cavid Shukurov',
     endpoints: {
       documentation: `${req.protocol}://${req.get('host')}/api-docs`,
       health: `${req.protocol}://${req.get('host')}/health`,
