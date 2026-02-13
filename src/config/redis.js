@@ -31,10 +31,14 @@ if (!isRedisEnabled) {
   if (redisUrl) {
     console.log('🔴 Configuring Upstash Redis (serverless)');
     
-    // Upstash uses TLS by default
+    // Extract host from URL (remove https:// prefix)
+    const redisHost = redisUrl.replace(/^https?:\/\//, '');
+    
+    // Upstash uses TLS by default on port 6379
     const clientConfig = {
-      url: redisUrl,
       socket: {
+        host: redisHost,
+        port: 6379,
         tls: true,
         rejectUnauthorized: true
       }
