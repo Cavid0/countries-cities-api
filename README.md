@@ -5,7 +5,8 @@ A professional RESTful API providing comprehensive data about countries and citi
 ## 🚀 Live Deployment
 
 - **🌐 API Base URL:** https://countries-cities-api-1.onrender.com
-- **📚 Swagger Documentation:** https://countries-cities-api-1.onrender.com/api-docs
+- **📚 Swagger Documentation (Interactive):** https://countries-cities-api-1.onrender.com/api-docs/
+- **📮 Postman Collection:** [Import from Swagger](https://countries-cities-api-1.onrender.com/api-docs/json)
 - **💚 Health Check:** https://countries-cities-api-1.onrender.com/health
 - **📦 GitHub Repository:** https://github.com/Cavid0/countries-cities-api
 
@@ -13,14 +14,18 @@ A professional RESTful API providing comprehensive data about countries and citi
 
 ✅ **RESTful API** - 15+ endpoints with proper HTTP methods  
 ✅ **JWT Authentication** - Access & refresh token system  
-✅ **Redis Caching** - Fast responses with cache headers  
-✅ **PostgreSQL Database** - 1200+ records (120+ countries, 1000+ cities)  
+✅ **User Token (OAuth)** - JWT-based authorization  
+✅ **Redis Caching** - Upstash serverless Redis for fast responses  
+✅ **PostgreSQL Database** - 415+ records (151 countries, 264 cities)  
 ✅ **Pagination** - Max 20 items per page  
 ✅ **Filtering & Search** - Query by name, region, population  
-✅ **Swagger Documentation** - Interactive API explorer  
+✅ **Swagger Documentation** - Interactive API explorer (OpenAPI 3.0)  
+✅ **Postman Ready** - Import collection directly from Swagger  
 ✅ **Input Validation** - Express-validator for data integrity  
 ✅ **Security** - Helmet, CORS, rate limiting  
-✅ **Cloud Deployment** - Render.com with auto-deploy from GitHub
+✅ **Cloud Deployment** - Render.com (AWS-backed) with auto-deploy  
+✅ **CRUD Operations** - Full Create, Read, Update, Delete support  
+✅ **Public + Protected Endpoints** - GET public, POST/PUT/DELETE require JWT
 
 ## 📖 API Documentation
 
