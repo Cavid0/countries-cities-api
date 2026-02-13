@@ -1,10 +1,6 @@
 require('dotenv').config();
 const { Country, City } = require('../models');
 
-/**
- * Sample data for seeding
- * You should replace this with real data from a dataset
- */
 const sampleCountries = [
   {
     name: 'United States',
@@ -128,14 +124,10 @@ const sampleCountries = [
   }
 ];
 
-/**
- * Seed database with sample data
- */
 const seedDatabase = async () => {
   try {
     console.log('🌱 Starting database seeding...');
 
-    // Check if data already exists
     const existingCountries = await Country.count();
     
     if (existingCountries > 0) {
@@ -145,12 +137,10 @@ const seedDatabase = async () => {
       process.exit(0);
     }
 
-    // Insert countries
     console.log('📝 Inserting countries...');
     const insertedCountries = await Country.bulkCreate(sampleCountries);
     console.log(`✅ Inserted ${insertedCountries.length} countries.`);
 
-    // Insert sample cities
     console.log('📝 Inserting cities...');
     const sampleCities = [
       { name: 'New York', country_id: insertedCountries[0].id, population: 8336817, latitude: 40.7128, longitude: -74.0060, is_capital: false },
@@ -198,5 +188,4 @@ const seedDatabase = async () => {
   }
 };
 
-// Run seeding
 seedDatabase();

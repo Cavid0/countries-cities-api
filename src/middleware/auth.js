@@ -2,12 +2,8 @@ const jwt = require('jsonwebtoken');
 const { jwtSecret } = require('../config/auth');
 const { User } = require('../models');
 
-/**
- * Middleware to verify JWT token and authenticate user
- */
 const authenticate = async (req, res, next) => {
   try {
-    // Get token from header
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -17,12 +13,10 @@ const authenticate = async (req, res, next) => {
       });
     }
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    const token = authHeader.substring(7);
 
-    // Verify token
     const decoded = jwt.verify(token, jwtSecret);
 
-    // Get user from database
     const user = await User.findByPk(decoded.userId);
 
     if (!user) {
@@ -32,7 +26,6 @@ const authenticate = async (req, res, next) => {
       });
     }
 
-    // Attach user to request object
     req.user = user;
     next();
 
@@ -59,9 +52,6 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-/**
- * Middleware to check if user has admin role
- */
 const isAdmin = (req, res, next) => {
   if (!req.user) {
     return res.status(401).json({
@@ -80,9 +70,6 @@ const isAdmin = (req, res, next) => {
   next();
 };
 
-/**
- * Optional authentication - doesn't fail if no token
- */
 const optionalAuth = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -99,7 +86,6 @@ const optionalAuth = async (req, res, next) => {
 
     next();
   } catch (error) {
-    // Continue without authentication
     next();
   }
 };

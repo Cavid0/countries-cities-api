@@ -3,12 +3,8 @@ const axios = require('axios');
 const { Country, City } = require('../models');
 const sequelize = require('../config/database');
 
-/**
- * Import countries from REST Countries API
- */
 const importCountriesFromAPI = async () => {
   try {
-    // Test database connection
     await sequelize.authenticate();
     console.log('✅ Database connected');
 
@@ -26,7 +22,6 @@ const importCountriesFromAPI = async () => {
     
     for (const country of countries) {
       try {
-        // Check if country already exists
         const existing = await Country.findOne({
           where: { code: country.cca2 }
         });
@@ -74,7 +69,6 @@ const importCountriesFromAPI = async () => {
   }
 };
 
-// Run import
 console.log(`
 ╔════════════════════════════════════════╗
 ║   Countries Data Import Utility        ║

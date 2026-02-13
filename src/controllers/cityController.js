@@ -1,9 +1,6 @@
 const { City, Country } = require('../models');
 const { Op } = require('sequelize');
 
-/**
- * Helper function for pagination
- */
 const getPagination = (page, size) => {
   const limit = size ? +size : parseInt(process.env.ITEMS_PER_PAGE) || 20;
   const offset = page ? (page - 1) * limit : 0;
@@ -11,9 +8,6 @@ const getPagination = (page, size) => {
   return { limit, offset };
 };
 
-/**
- * Helper function to format pagination response
- */
 const getPagingData = (data, page, limit) => {
   const { count: totalItems, rows: items } = data;
   const currentPage = page ? +page : 1;
@@ -28,17 +22,11 @@ const getPagingData = (data, page, limit) => {
   };
 };
 
-/**
- * @desc    Get all cities with pagination
- * @route   GET /api/v1/cities
- * @access  Public
- */
 const getAllCities = async (req, res, next) => {
   try {
     const { page = 1, size, search, countryId, isCapital } = req.query;
     const { limit, offset } = getPagination(page, size);
 
-    // Build where clause for filtering
     const where = {};
     
     if (search) {
@@ -78,11 +66,6 @@ const getAllCities = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Get single city by ID
- * @route   GET /api/v1/cities/:id
- * @access  Public
- */
 const getCityById = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -113,18 +96,12 @@ const getCityById = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Get cities by country ID
- * @route   GET /api/v1/cities/country/:countryId
- * @access  Public
- */
 const getCitiesByCountry = async (req, res, next) => {
   try {
     const { countryId } = req.params;
     const { page = 1, size } = req.query;
     const { limit, offset } = getPagination(page, size);
 
-    // Check if country exists
     const country = await Country.findByPk(countryId);
     
     if (!country) {
@@ -161,16 +138,10 @@ const getCitiesByCountry = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Create new city
- * @route   POST /api/v1/cities
- * @access  Private (Admin only)
- */
 const createCity = async (req, res, next) => {
   try {
     const { country_id } = req.body;
 
-    // Verify country exists
     const country = await Country.findByPk(country_id);
     
     if (!country) {
@@ -182,7 +153,6 @@ const createCity = async (req, res, next) => {
 
     const city = await City.create(req.body);
 
-    // Fetch city with country details
     const cityWithCountry = await City.findOne({
       where: { id: city.id },
       include: [{
@@ -203,11 +173,6 @@ const createCity = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Update city
- * @route   PUT /api/v1/cities/:id
- * @access  Private (Admin only)
- */
 const updateCity = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -221,7 +186,6 @@ const updateCity = async (req, res, next) => {
       });
     }
 
-    // If country_id is being updated, verify it exists
     if (req.body.country_id && req.body.country_id !== city.country_id) {
       const country = await Country.findByPk(req.body.country_id);
       
@@ -235,7 +199,6 @@ const updateCity = async (req, res, next) => {
 
     await city.update(req.body);
 
-    // Fetch updated city with country details
     const updatedCity = await City.findOne({
       where: { id },
       include: [{
@@ -256,11 +219,6 @@ const updateCity = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Delete city
- * @route   DELETE /api/v1/cities/:id
- * @access  Private (Admin only)
- */
 const deleteCity = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -286,11 +244,6 @@ const deleteCity = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Get capital cities
- * @route   GET /api/v1/cities/capitals
- * @access  Public
- */
 const getCapitalCities = async (req, res, next) => {
   try {
     const { page = 1, size } = req.query;

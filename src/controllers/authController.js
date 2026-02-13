@@ -2,9 +2,6 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const { jwtSecret, jwtExpiresIn, jwtRefreshSecret, jwtRefreshExpiresIn } = require('../config/auth');
 
-/**
- * Generate JWT tokens
- */
 const generateTokens = (userId) => {
   const accessToken = jwt.sign({ userId }, jwtSecret, { expiresIn: jwtExpiresIn });
   const refreshToken = jwt.sign({ userId }, jwtRefreshSecret, { expiresIn: jwtRefreshExpiresIn });
@@ -12,16 +9,10 @@ const generateTokens = (userId) => {
   return { accessToken, refreshToken };
 };
 
-/**
- * @desc    Register a new user
- * @route   POST /api/v1/auth/register
- * @access  Public
- */
 const register = async (req, res, next) => {
   try {
     const { username, email, password, role } = req.body;
 
-    // Check if user already exists
     const existingUser = await User.findOne({
       where: {
         [require('sequelize').Op.or]: [{ email }, { username }]
@@ -35,15 +26,13 @@ const register = async (req, res, next) => {
       });
     }
 
-    // Create user (password will be hashed by model hook)
     const user = await User.create({
       username,
       email,
       password,
-      role: role || 'user' // Default to 'user' role
+      role: role || 'user'
     });
 
-    // Generate tokens
     const { accessToken, refreshToken } = generateTokens(user.id);
 
     res.status(201).json({
@@ -61,16 +50,10 @@ const register = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Login user
- * @route   POST /api/v1/auth/login
- * @access  Public
- */
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    // Find user by email
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
@@ -80,7 +63,6 @@ const login = async (req, res, next) => {
       });
     }
 
-    // Check password
     const isPasswordValid = await user.comparePassword(password);
 
     if (!isPasswordValid) {
@@ -90,7 +72,6 @@ const login = async (req, res, next) => {
       });
     }
 
-    // Generate tokens
     const { accessToken, refreshToken } = generateTokens(user.id);
 
     res.status(200).json({
@@ -108,11 +89,6 @@ const login = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Refresh access token
- * @route   POST /api/v1/auth/refresh
- * @access  Public
- */
 const refreshToken = async (req, res, next) => {
   try {
     const { refreshToken } = req.body;
@@ -124,10 +100,8 @@ const refreshToken = async (req, res, next) => {
       });
     }
 
-    // Verify refresh token
     const decoded = jwt.verify(refreshToken, jwtRefreshSecret);
 
-    // Get user
     const user = await User.findByPk(decoded.userId);
 
     if (!user) {
@@ -137,7 +111,6 @@ const refreshToken = async (req, res, next) => {
       });
     }
 
-    // Generate new tokens
     const tokens = generateTokens(user.id);
 
     res.status(200).json({
@@ -157,11 +130,6 @@ const refreshToken = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Get current user profile
- * @route   GET /api/v1/auth/me
- * @access  Private
- */
 const getMe = async (req, res, next) => {
   try {
     res.status(200).json({

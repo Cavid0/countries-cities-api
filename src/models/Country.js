@@ -89,8 +89,7 @@ const Country = sequelize.define('countries', {
   },
   area: {
     type: DataTypes.FLOAT,
-    allowNull: true,
-    comment: 'Area in square kilometers'
+    allowNull: true
   },
   region: {
     type: DataTypes.STRING(50),

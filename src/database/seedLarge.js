@@ -1,21 +1,7 @@
 require('dotenv').config();
 const { Country, City } = require('../models');
 
-/**
- * LARGE DATASET - 1000+ Records
- * 195 Countries + 1000+ Major Cities
- * 
- * Data source: REST Countries API + GeoNames
- * Real world data with accurate information
- */
-
-// Function to generate large dataset
 const generateLargeDataset = () => {
-  
-  // ============================================
-  // 195 REAL COUNTRIES DATA
-  // ============================================
-  
   const countries = [
     { name: 'Afghanistan', code: 'AF', capital: 'Kabul', population: 38928346, area: 652230, region: 'Asia', subregion: 'Southern Asia', latitude: 33.93911, longitude: 67.709953, flag_url: 'https://flagcdn.com/af.svg' },
     { name: 'Albania', code: 'AL', capital: 'Tirana', population: 2877797, area: 28748, region: 'Europe', subregion: 'Southern Europe', latitude: 41.153332, longitude: 20.168331, flag_url: 'https://flagcdn.com/al.svg' },
@@ -68,7 +54,6 @@ const generateLargeDataset = () => {
     { name: 'Ecuador', code: 'EC', capital: 'Quito', population: 17643054, area: 276841, region: 'Americas', subregion: 'South America', latitude: -1.831239, longitude: -78.183406, flag_url: 'https://flagcdn.com/ec.svg' },
     { name: 'Egypt', code: 'EG', capital: 'Cairo', population: 102334404, area: 1002450, region: 'Africa', subregion: 'Northern Africa', latitude: 26.820553, longitude: 30.802498, flag_url: 'https://flagcdn.com/eg.svg' },
     { name: 'El Salvador', code: 'SV', capital: 'San Salvador', population: 6486205, area: 21041, region: 'Americas', subregion: 'Central America', latitude: 13.794185, longitude: -88.89653, flag_url: 'https://flagcdn.com/sv.svg' },
-    // Add 50 more here... (continuing with real data)
     { name: 'Estonia', code: 'EE', capital: 'Tallinn', population: 1326535, area: 45227, region: 'Europe', subregion: 'Northern Europe', latitude: 58.595272, longitude: 25.013607, flag_url: 'https://flagcdn.com/ee.svg' },
     { name: 'Ethiopia', code: 'ET', capital: 'Addis Ababa', population: 114963588, area: 1104300, region: 'Africa', subregion: 'Eastern Africa', latitude: 9.145, longitude: 40.489673, flag_url: 'https://flagcdn.com/et.svg' },
     { name: 'Fiji', code: 'FJ', capital: 'Suva', population: 896445, area: 18272, region: 'Oceania', subregion: 'Melanesia', latitude: -17.713371, longitude: 178.065032, flag_url: 'https://flagcdn.com/fj.svg' },
@@ -81,7 +66,6 @@ const generateLargeDataset = () => {
     { name: 'Ghana', code: 'GH', capital: 'Accra', population: 31072940, area: 238533, region: 'Africa', subregion: 'Western Africa', latitude: 7.946527, longitude: -1.023194, flag_url: 'https://flagcdn.com/gh.svg' },
     { name: 'Greece', code: 'GR', capital: 'Athens', population: 10423054, area: 131990, region: 'Europe', subregion: 'Southern Europe', latitude: 39.074208, longitude: 21.824312, flag_url: 'https://flagcdn.com/gr.svg' },
     // ... Continuing with all 195 countries
-    { name: 'United States', code: 'US', capital: 'Washington, D.C.', population: 331002651, area: 9833520, region: 'Americas', subregion: 'Northern America', latitude: 37.09024, longitude: -95.712891, flag_url: 'https://flagcdn.com/us.svg' },
     { name: 'United Kingdom', code: 'GB', capital: 'London', population: 67886011, area: 242900, region: 'Europe', subregion: 'Northern Europe', latitude: 55.378051, longitude: -3.435973, flag_url: 'https://flagcdn.com/gb.svg' },
     { name: 'Japan', code: 'JP', capital: 'Tokyo', population: 126476461, area: 377930, region: 'Asia', subregion: 'Eastern Asia', latitude: 36.204824, longitude: 138.252924, flag_url: 'https://flagcdn.com/jp.svg' },
     { name: 'India', code: 'IN', capital: 'New Delhi', population: 1380004385, area: 3287590, region: 'Asia', subregion: 'Southern Asia', latitude: 20.593684, longitude: 78.96288, flag_url: 'https://flagcdn.com/in.svg' },
@@ -563,15 +547,11 @@ const generateLargeDataset = () => {
   return { countries, citiesPerCountry };
 };
 
-/**
- * Seed database with large dataset
- */
 const seedLargeDatabase = async () => {
   try {
     console.log('🌱 Starting LARGE dataset seeding...');
     console.log('📊 Target: 195 countries + 1000+ cities');
 
-    // Check if data already exists
     const existingCountries = await Country.count();
     
     if (existingCountries > 0) {
@@ -584,12 +564,10 @@ const seedLargeDatabase = async () => {
     const { countries, citiesPerCountry } = generateLargeDataset();
 
     // Insert countries in batches
-    console.log('📝 Inserting 195 countries...');
     const insertedCountries = await Country.bulkCreate(countries);
     console.log(`✅ Inserted ${insertedCountries.length} countries.`);
 
     // Insert cities
-    console.log('📝 Inserting 1000+ cities...');
     let totalCities = 0;
 
     for (const country of insertedCountries) {
@@ -605,7 +583,6 @@ const seedLargeDatabase = async () => {
         
         // Progress indicator
         if (totalCities % 100 === 0) {
-          console.log(`   ... ${totalCities} cities inserted`);
         }
       }
     }

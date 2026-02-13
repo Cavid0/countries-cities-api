@@ -1,8 +1,5 @@
 const { body, param, query } = require('express-validator');
 
-/**
- * Validation rules for creating a city
- */
 const createCityValidation = [
   body('name')
     .trim()
@@ -38,9 +35,6 @@ const createCityValidation = [
     .withMessage('is_capital must be a boolean value')
 ];
 
-/**
- * Validation rules for updating a city
- */
 const updateCityValidation = [
   param('id')
     .isUUID()
@@ -80,27 +74,18 @@ const updateCityValidation = [
     .withMessage('is_capital must be a boolean value')
 ];
 
-/**
- * Validation rules for getting a city by ID
- */
 const getCityByIdValidation = [
   param('id')
     .isUUID()
     .withMessage('Invalid city ID')
 ];
 
-/**
- * Validation rules for getting cities by country
- */
 const getCitiesByCountryValidation = [
   param('countryId')
     .isUUID()
     .withMessage('Invalid country ID')
 ];
 
-/**
- * Validation rules for query parameters
- */
 const queryValidation = [
   query('page')
     .optional()

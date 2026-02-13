@@ -1,8 +1,5 @@
 const { body, param, query } = require('express-validator');
 
-/**
- * Validation rules for creating a country
- */
 const createCountryValidation = [
   body('name')
     .trim()
@@ -65,9 +62,6 @@ const createCountryValidation = [
     .withMessage('Flag URL must be a valid URL')
 ];
 
-/**
- * Validation rules for updating a country
- */
 const updateCountryValidation = [
   param('id')
     .isUUID()
@@ -122,18 +116,12 @@ const updateCountryValidation = [
     .withMessage('Flag URL must be a valid URL')
 ];
 
-/**
- * Validation rules for getting a country by ID
- */
 const getCountryByIdValidation = [
   param('id')
     .isUUID()
     .withMessage('Invalid country ID')
 ];
 
-/**
- * Validation rules for query parameters
- */
 const queryValidation = [
   query('page')
     .optional()

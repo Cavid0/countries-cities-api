@@ -1,9 +1,6 @@
 const { Country, City } = require('../models');
 const { Op } = require('sequelize');
 
-/**
- * Helper function for pagination
- */
 const getPagination = (page, size) => {
   const limit = size ? +size : parseInt(process.env.ITEMS_PER_PAGE) || 20;
   const offset = page ? (page - 1) * limit : 0;
@@ -11,9 +8,6 @@ const getPagination = (page, size) => {
   return { limit, offset };
 };
 
-/**
- * Helper function to format pagination response
- */
 const getPagingData = (data, page, limit) => {
   const { count: totalItems, rows: items } = data;
   const currentPage = page ? +page : 1;
@@ -28,17 +22,11 @@ const getPagingData = (data, page, limit) => {
   };
 };
 
-/**
- * @desc    Get all countries with pagination
- * @route   GET /api/v1/countries
- * @access  Public
- */
 const getAllCountries = async (req, res, next) => {
   try {
     const { page = 1, size, search, region, subregion } = req.query;
     const { limit, offset } = getPagination(page, size);
 
-    // Build where clause for filtering
     const where = {};
     
     if (search) {
@@ -77,11 +65,6 @@ const getAllCountries = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Get single country by ID
- * @route   GET /api/v1/countries/:id
- * @access  Public
- */
 const getCountryById = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -91,7 +74,6 @@ const getCountryById = async (req, res, next) => {
       where: { id }
     };
 
-    // Optionally include cities
     if (includeCities === 'true') {
       queryOptions.include = [{
         model: City,
@@ -120,11 +102,6 @@ const getCountryById = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Create new country
- * @route   POST /api/v1/countries
- * @access  Private (Admin only)
- */
 const createCountry = async (req, res, next) => {
   try {
     const country = await Country.create(req.body);
@@ -140,11 +117,6 @@ const createCountry = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Update country
- * @route   PUT /api/v1/countries/:id
- * @access  Private (Admin only)
- */
 const updateCountry = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -171,11 +143,6 @@ const updateCountry = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Delete country
- * @route   DELETE /api/v1/countries/:id
- * @access  Private (Admin only)
- */
 const deleteCountry = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -201,11 +168,6 @@ const deleteCountry = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Get country statistics
- * @route   GET /api/v1/countries/stats
- * @access  Public
- */
 const getCountryStats = async (req, res, next) => {
   try {
     const totalCountries = await Country.count();

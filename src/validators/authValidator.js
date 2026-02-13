@@ -1,8 +1,5 @@
 const { body } = require('express-validator');
 
-/**
- * Validation rules for user registration
- */
 const registerValidation = [
   body('username')
     .trim()
@@ -29,9 +26,6 @@ const registerValidation = [
     .withMessage('Role must be either "user" or "admin"')
 ];
 
-/**
- * Validation rules for user login
- */
 const loginValidation = [
   body('email')
     .trim()
@@ -44,9 +38,6 @@ const loginValidation = [
     .withMessage('Password is required')
 ];
 
-/**
- * Validation rules for refresh token
- */
 const refreshTokenValidation = [
   body('refreshToken')
     .notEmpty()
