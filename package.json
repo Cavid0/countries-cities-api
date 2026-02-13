@@ -8,6 +8,7 @@
     "dev": "nodemon src/server.js",
     "db:setup": "node src/database/setup.js",
     "db:seed": "node src/database/seed.js",
+    "db:seed:large": "node src/database/seedLarge.js",
     "db:migrate": "node src/database/migrate.js",
     "import:countries": "node src/utils/importData.js",
     "test": "jest --coverage",

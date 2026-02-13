@@ -1,38 +1,89 @@
 const redis = require('redis');
 
-const redisClient = redis.createClient({
-  socket: {
-    host: process.env.REDIS_HOST || 'localhost',
-    port: process.env.REDIS_PORT || 6379,
-    reconnectStrategy: (retries) => {
-      // Stop reconnecting after 3 attempts (cloud deployment without Redis)
-      if (retries > 3) {
-        console.log('⚠️  Redis connection failed after 3 attempts - disabling Redis');
-        return false; // Stop reconnecting
+// Check if Redis is enabled
+const isRedisEnabled = process.env.REDIS_ENABLED === 'true';
+
+if (!isRedisEnabled) {
+  console.log('⚠️  Redis is disabled (REDIS_ENABLED != true)');
+  // Return a mock client that does nothing
+  module.exports = {
+    isOpen: false,
+    connect: async () => {},
+    get: async () => null,
+    setEx: async () => {},
+    del: async () => {},
+    quit: async () => {}
+  };
+} else {
+  // Upstash REST API configuration (preferred for serverless)
+  const redisUrl = process.env.REDIS_URL;
+  const redisToken = process.env.REDIS_TOKEN;
+
+  // Traditional Redis configuration (fallback for local dev)
+  const redisHost = process.env.REDIS_HOST || 'localhost';
+  const redisPort = process.env.REDIS_PORT || 6379;
+  const redisPassword = process.env.REDIS_PASSWORD;
+  const redisTls = process.env.REDIS_TLS === 'true';
+
+  let redisClient;
+
+  // Use Upstash if URL provided (cloud deployment)
+  if (redisUrl) {
+    console.log('🔴 Configuring Upstash Redis (serverless)');
+    
+    // Upstash uses TLS by default
+    const clientConfig = {
+      url: redisUrl,
+      socket: {
+        tls: true,
+        rejectUnauthorized: true
       }
-      // Wait 1 second between retries
-      return 1000;
+    };
+
+    // Add token or password if provided
+    if (redisToken) {
+      clientConfig.password = redisToken;
+    } else if (redisPassword) {
+      clientConfig.password = redisPassword;
     }
-  },
-  password: process.env.REDIS_PASSWORD || undefined,
-  legacyMode: false
-});
 
-redisClient.on('error', (err) => {
-  // Only log first error, avoid spam
-  if (!redisClient.isErrorLogged) {
-    console.warn('⚠️  Redis Client Error:', err.message);
-    redisClient.isErrorLogged = true;
+    redisClient = redis.createClient(clientConfig);
+  } else {
+    // Use traditional Redis connection (local dev)
+    console.log('🔴 Configuring traditional Redis connection');
+    redisClient = redis.createClient({
+      socket: {
+        host: redisHost,
+        port: redisPort,
+        tls: redisTls,
+        reconnectStrategy: (retries) => {
+          if (retries > 3) {
+            console.log('⚠️  Redis connection failed after 3 attempts - disabling Redis');
+            return false;
+          }
+          return 1000;
+        }
+      },
+      password: redisPassword || undefined,
+      legacyMode: false
+    });
   }
-});
 
-redisClient.on('connect', () => {
-  console.log('🔄 Redis Client connecting...');
-});
+  redisClient.on('error', (err) => {
+    if (!redisClient.isErrorLogged) {
+      console.warn('⚠️  Redis Client Error:', err.message);
+      redisClient.isErrorLogged = true;
+    }
+  });
 
-redisClient.on('ready', () => {
-  console.log('✅ Redis Client ready');
-  redisClient.isErrorLogged = false; // Reset error logging
-});
+  redisClient.on('connect', () => {
+    console.log('🔄 Redis Client connecting...');
+  });
 
-module.exports = redisClient;
+  redisClient.on('ready', () => {
+    console.log('✅ Redis Client ready and connected');
+    redisClient.isErrorLogged = false;
+  });
+
+  module.exports = redisClient;
+}
