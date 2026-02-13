@@ -1,53 +1,273 @@
 # 🌍 Countries and Cities API
 
-A comprehensive RESTful API providing data about countries and cities worldwide with authentication, caching, and pagination.
+A professional RESTful API providing comprehensive data about countries and cities worldwide with JWT authentication, Redis caching, and full pagination support.
 
-## 📋 Project Roadmap
+## 🚀 Live Deployment
 
-### Phase 1: Setup & Data Preparation (Week 1)
-- [x] Choose tech stack (Node.js + Express.js + PostgreSQL)
-- [ ] Set up project structure
-- [ ] Initialize Git repository
-- [ ] Find and prepare countries/cities dataset (1000+ rows)
-- [ ] Set up PostgreSQL database
-- [ ] Set up Redis for caching
-- [ ] Create database schema and migrations
+- **🌐 API Base URL:** https://countries-cities-api-1.onrender.com
+- **📚 Swagger Documentation:** https://countries-cities-api-1.onrender.com/api-docs
+- **💚 Health Check:** https://countries-cities-api-1.onrender.com/health
+- **📦 GitHub Repository:** https://github.com/Cavid0/countries-cities-api
 
-### Phase 2: Core API Development (Week 2-3)
-- [ ] Implement user authentication (JWT)
-- [ ] Create OAuth token system
-- [ ] Build CRUD endpoints:
-  - GET /api/countries (public, with pagination)
-  - GET /api/countries/:id (public)
-  - POST /api/countries (protected)
-  - PUT /api/countries/:id (protected)
-  - DELETE /api/countries/:id (protected)
-  - GET /api/cities (public, with pagination)
-  - GET /api/cities/:id (public)
-  - POST /api/cities (protected)
-  - PUT /api/cities/:id (protected)
-  - DELETE /api/cities/:id (protected)
-- [ ] Implement pagination (max 20 items per page)
-- [ ] Add Redis caching layer
-- [ ] Input validation and error handling
+## 📊 Features
 
-### Phase 3: Documentation & Testing (Week 4)
-- [ ] Set up Swagger/OpenAPI documentation
-- [ ] Create Postman collection
-- [ ] Write API documentation
-- [ ] Unit tests
-- [ ] Integration tests
-- [ ] Performance testing
+✅ **RESTful API** - 15+ endpoints with proper HTTP methods  
+✅ **JWT Authentication** - Access & refresh token system  
+✅ **Redis Caching** - Fast responses with cache headers  
+✅ **PostgreSQL Database** - 1200+ records (120+ countries, 1000+ cities)  
+✅ **Pagination** - Max 20 items per page  
+✅ **Filtering & Search** - Query by name, region, population  
+✅ **Swagger Documentation** - Interactive API explorer  
+✅ **Input Validation** - Express-validator for data integrity  
+✅ **Security** - Helmet, CORS, rate limiting  
+✅ **Cloud Deployment** - Render.com with auto-deploy from GitHub
 
-### Phase 4: Optional Features
-- [ ] GraphQL interface
-- [ ] Rate limiting
-- [ ] API versioning
-- [ ] Advanced filtering and search
+## 📖 API Documentation
 
-### Phase 5: Deployment (Week 5)
-- [ ] Prepare for cloud deployment
-- [ ] Set up environment variables
+### Base URL
+```
+https://countries-cities-api-1.onrender.com
+```
+
+### Interactive Documentation
+Open in browser for full API testing:
+```
+https://countries-cities-api-1.onrender.com/api-docs
+```
+
+### Authentication Endpoints
+
+#### Register User
+```http
+POST /api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "SecurePass123!"
+}
+```
+
+#### Login
+```http
+POST /api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "SecurePass123!"
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "data": {
+    "accessToken": "eyJhbGc...",
+    "refreshToken": "eyJhbGc...",
+    "user": {
+      "id": 1,
+      "username": "testuser",
+      "email": "test@example.com"
+    }
+  }
+}
+```
+
+### Country Endpoints
+
+#### Get All Countries (Public)
+```http
+GET /api/v1/countries?page=1&limit=20&search=turkey&region=Asia
+```
+
+**Query Parameters:**
+- `page` - Page number (default: 1)
+- `limit` - Items per page (max: 20)
+- `search` - Search by country name
+- `region` - Filter by region (Europe, Asia, Africa, Americas, Oceania)
+- `sortBy` - Sort field (name, population, area)
+- `order` - Sort order (asc, desc)
+
+**Response:**
+```json
+{
+  "status": "success",
+  "data": {
+    "countries": [...],
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 6,
+      "totalItems": 120,
+      "itemsPerPage": 20
+    }
+  }
+}
+```
+
+#### Get Country by ID (Public)
+```http
+GET /api/v1/countries/1
+```
+
+#### Get Country's Cities (Public)
+```http
+GET /api/v1/countries/1/cities
+```
+
+#### Create Country (Protected - JWT Required)
+```http
+POST /api/v1/countries
+Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json
+
+{
+  "name": "Turkey",
+  "code": "TR",
+  "capital": "Ankara",
+  "population": 84339067,
+  "area": 783562,
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "latitude": 38.9637,
+  "longitude": 35.2433,
+  "flag_url": "https://flagcdn.com/tr.svg"
+}
+```
+
+#### Update Country (Protected)
+```http
+PUT /api/v1/countries/1
+Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json
+
+{
+  "population": 85000000
+}
+```
+
+#### Delete Country (Protected)
+```http
+DELETE /api/v1/countries/1
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+### City Endpoints
+
+#### Get All Cities (Public)
+```http
+GET /api/v1/cities?page=1&limit=20&country_id=1&search=istanbul
+```
+
+#### Get City by ID (Public)
+```http
+GET /api/v1/cities/1
+```
+
+#### Create City (Protected)
+```http
+POST /api/v1/cities
+Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json
+
+{
+  "name": "Istanbul",
+  "country_id": 1,
+  "population": 15462000,
+  "latitude": 41.0082,
+  "longitude": 28.9784,
+  "is_capital": false
+}
+```
+
+#### Update City (Protected)
+```http
+PUT /api/v1/cities/1
+Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json
+
+{
+  "population": 16000000
+}
+```
+
+#### Delete City (Protected)
+```http
+DELETE /api/v1/cities/1
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+## 🧪 Testing the API
+
+### Using cURL
+
+```bash
+# Health Check
+curl https://countries-cities-api-1.onrender.com/health
+
+# Get Countries
+curl https://countries-cities-api-1.onrender.com/api/v1/countries
+
+# Search Countries
+curl "https://countries-cities-api-1.onrender.com/api/v1/countries?search=united&region=Europe"
+
+# Get Cities
+curl https://countries-cities-api-1.onrender.com/api/v1/cities
+
+# Register User
+curl -X POST https://countries-cities-api-1.onrender.com/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"testuser","email":"test@example.com","password":"SecurePass123!"}'
+
+# Login
+curl -X POST https://countries-cities-api-1.onrender.com/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"SecurePass123!"}'
+
+# Create Country (with JWT)
+curl -X POST https://countries-cities-api-1.onrender.com/api/v1/countries \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Azerbaijan","code":"AZ","capital":"Baku","population":10139177}'
+```
+
+### Using Postman
+
+1. **Import Collection:**
+   - Open Postman
+   - Import → Link → `https://countries-cities-api-1.onrender.com/api-docs/json`
+
+2. **Setup Environment:**
+   - Create new environment
+   - Add variable: `baseURL` = `https://countries-cities-api-1.onrender.com`
+   - Add variable: `token` = (empty, will be set after login)
+
+3. **Test Flow:**
+   - Register → Login → Copy token → Test protected endpoints
+
+### Using Swagger UI (Recommended)
+
+1. Open: https://countries-cities-api-1.onrender.com/api-docs
+2. Click "Authorize" button
+3. Enter JWT token (get from /auth/login)
+4. Test all endpoints interactively
+
+## 🏗️ Technical Stack
+
+- **Runtime:** Node.js 18+
+- **Framework:** Express.js 4.18
+- **Database:** PostgreSQL 14 (Render)
+- **Cache:** Redis (Upstash - serverless)
+- **Authentication:** JWT (jsonwebtoken + bcryptjs)
+- **Validation:** express-validator
+- **Documentation:** Swagger (swagger-ui-express + swagger-jsdoc)
+- **Security:** Helmet, CORS, express-rate-limit
+- **ORM:** Sequelize 6.35
+- **Deployment:** Render.com (auto-deploy from GitHub)
+
+## 📊 Database Schema
 - [ ] Deploy to cloud (AWS/Google Cloud/Azure/IBM)
 - [ ] Set up CI/CD pipeline
 - [ ] Monitor and optimize
@@ -340,8 +560,71 @@ MIT License
 - **Postman Collection:** (Create and add URL after testing)
 
 ### 📊 Project Stats
-- **Total Countries:** 10
-- **Total Cities:** 19
+- **Total Countries:** 120+
+- **Total Cities:** 1200+
 - **API Endpoints:** 15+
-- **Documentation:** Complete
-- **Tests:** API tested via Swagger & Postman
+- **Documentation:** Interactive Swagger UI
+- **Tests:** Fully tested via Swagger & cURL
+- **Cache:** Redis with Upstash (serverless)
+- **Database:** PostgreSQL on Render (cloud)
+
+---
+
+## 🌱 Database Seeding
+
+### Seed Remote Database (From Local)
+
+1. **Get DATABASE_URL from Render:**
+   - Go to: https://dashboard.render.com/
+   - Open your PostgreSQL database
+   - Copy "External Database URL"
+
+2. **Add to .env file:**
+   ```bash
+   DATABASE_URL=postgres://user:pass@host/db
+   ```
+
+3. **Run seed script:**
+   ```bash
+   npm run db:seed:large
+   ```
+
+This will seed 120+ countries and 1200+ cities to your production database.
+
+---
+
+## 📈 API Response Examples
+
+### Success Response
+```json
+{
+  "status": "success",
+  "data": {
+    "countries": [...],
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 6,
+      "totalItems": 120,
+      "itemsPerPage": 20,
+      "hasNext": true,
+      "hasPrev": false
+    }
+  }
+}
+```
+
+### Error Response
+```json
+{
+  "status": "error",
+  "message": "Country not found",
+  "code": 404
+}
+```
+
+### Cache Headers
+```http
+X-Cache: HIT         # Data from Redis cache
+X-Cache: MISS        # Data from database
+Cache-Control: public, max-age=60
+```
