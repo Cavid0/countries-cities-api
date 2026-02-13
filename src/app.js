@@ -115,6 +115,21 @@ app.get('/health', (req, res) => {
   });
 });
 
+// API base path info
+app.get('/api', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'API v1 is available at /api/v1',
+    version: '1.0.0',
+    endpoints: {
+      countries: `${req.protocol}://${req.get('host')}/api/v1/countries`,
+      cities: `${req.protocol}://${req.get('host')}/api/v1/cities`,
+      auth: `${req.protocol}://${req.get('host')}/api/v1/auth`,
+      documentation: `${req.protocol}://${req.get('host')}/api-docs`
+    }
+  });
+});
+
 // API documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
