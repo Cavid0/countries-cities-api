@@ -78,6 +78,33 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));
 }
 
+// Root endpoint - Welcome page
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Welcome to Countries and Cities API',
+    version: '1.0.0',
+    author: 'Cavid Aliyev',
+    endpoints: {
+      documentation: `${req.protocol}://${req.get('host')}/api-docs`,
+      health: `${req.protocol}://${req.get('host')}/health`,
+      api: `${req.protocol}://${req.get('host')}/api/v1`,
+      countries: `${req.protocol}://${req.get('host')}/api/v1/countries`,
+      cities: `${req.protocol}://${req.get('host')}/api/v1/cities`,
+      auth: `${req.protocol}://${req.get('host')}/api/v1/auth`
+    },
+    repository: 'https://github.com/Cavid0/countries-cities-api',
+    features: [
+      'JWT Authentication',
+      'Redis Caching',
+      'PostgreSQL Database',
+      'Pagination (max 20 per page)',
+      'Swagger Documentation',
+      'RESTful API Design'
+    ]
+  });
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({
