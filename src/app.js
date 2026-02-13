@@ -12,7 +12,6 @@ const { notFound } = require('./middleware/notFound');
 
 const app = express();
 
-// Swagger configuration
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
@@ -55,30 +54,24 @@ const swaggerOptions = {
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
-// Security middleware
 app.use(helmet());
 
-// CORS configuration
 app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
   credentials: true
 }));
 
-// Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Compression middleware
 app.use(compression());
 
-// Logging middleware
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 } else {
   app.use(morgan('combined'));
 }
 
-// Root endpoint - Welcome page
 app.get('/', (req, res) => {
   res.status(200).json({
     success: true,
@@ -105,7 +98,6 @@ app.get('/', (req, res) => {
   });
 });
 
-// Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
@@ -115,7 +107,6 @@ app.get('/health', (req, res) => {
   });
 });
 
-// API base path info
 app.get('/api', (req, res) => {
   res.status(200).json({
     success: true,
@@ -130,16 +121,12 @@ app.get('/api', (req, res) => {
   });
 });
 
-// API documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// API routes
 app.use('/api/v1', apiRoutes);
 
-// 404 handler
 app.use(notFound);
 
-// Error handling middleware
 app.use(errorHandler);
 
 module.exports = app;
