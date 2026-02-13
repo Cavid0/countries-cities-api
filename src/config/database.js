@@ -1,16 +1,14 @@
 const { Sequelize } = require('sequelize');
 
-// Use DATABASE_URL if available (for cloud deployment like Render)
-// Otherwise fall back to individual environment variables (for local dev)
 const sequelize = process.env.DATABASE_URL
   ? new Sequelize(process.env.DATABASE_URL, {
       dialect: 'postgres',
       logging: process.env.NODE_ENV === 'development' ? console.log : false,
       dialectOptions: {
-        ssl: process.env.NODE_ENV === 'production' ? {
+        ssl: {
           require: true,
           rejectUnauthorized: false
-        } : false
+        }
       },
       pool: {
         max: 10,
