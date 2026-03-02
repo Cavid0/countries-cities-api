@@ -2,7 +2,6 @@ const User = require('./User');
 const Country = require('./Country');
 const City = require('./City');
 
-// Define associations
 Country.hasMany(City, {
   foreignKey: 'country_id',
   as: 'cities',

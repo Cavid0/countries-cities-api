@@ -1,10 +1,6 @@
-/**
- * Global error handler middleware
- */
 const errorHandler = (err, req, res, next) => {
   console.error('Error:', err);
 
-  // Sequelize validation error
   if (err.name === 'SequelizeValidationError') {
     const errors = err.errors.map(e => ({
       field: e.path,
@@ -18,7 +14,6 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  // Sequelize unique constraint error
   if (err.name === 'SequelizeUniqueConstraintError') {
     const field = err.errors[0]?.path || 'field';
     return res.status(409).json({
@@ -27,7 +22,6 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  // Sequelize database error
   if (err.name === 'SequelizeDatabaseError') {
     return res.status(500).json({
       success: false,
@@ -36,7 +30,6 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  // JWT errors
   if (err.name === 'JsonWebTokenError') {
     return res.status(401).json({
       success: false,
@@ -51,7 +44,6 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  // Custom API errors
   if (err.statusCode) {
     return res.status(err.statusCode).json({
       success: false,
@@ -60,7 +52,6 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  // Default server error
   res.status(500).json({
     success: false,
     message: 'Internal server error',

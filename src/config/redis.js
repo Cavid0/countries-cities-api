@@ -3,7 +3,7 @@ const redis = require('redis');
 const isRedisEnabled = process.env.REDIS_ENABLED === 'true';
 
 if (!isRedisEnabled) {
-  console.log('⚠️  Redis is disabled (REDIS_ENABLED != true)');
+  console.log('Redis is disabled (REDIS_ENABLED != true)');
   module.exports = {
     isOpen: false,
     connect: async () => {},
@@ -24,7 +24,7 @@ if (!isRedisEnabled) {
   let redisClient;
 
   if (redisUrl) {
-    console.log('🔴 Configuring Upstash Redis (serverless)');
+    console.log('Configuring Upstash Redis (serverless)');
     
     const redisHost = redisUrl.replace(/^https?:\/\//, '');
     
@@ -45,7 +45,7 @@ if (!isRedisEnabled) {
 
     redisClient = redis.createClient(clientConfig);
   } else {
-    console.log('🔴 Configuring traditional Redis connection');
+    console.log('Configuring traditional Redis connection');
     redisClient = redis.createClient({
       socket: {
         host: redisHost,
@@ -53,7 +53,7 @@ if (!isRedisEnabled) {
         tls: redisTls,
         reconnectStrategy: (retries) => {
           if (retries > 3) {
-            console.log('⚠️  Redis connection failed after 3 attempts - disabling Redis');
+            console.log('Redis connection failed after 3 attempts - disabling Redis');
             return false;
           }
           return 1000;
@@ -66,17 +66,17 @@ if (!isRedisEnabled) {
 
   redisClient.on('error', (err) => {
     if (!redisClient.isErrorLogged) {
-      console.warn('⚠️  Redis Client Error:', err.message);
+      console.warn('Redis Client Error:', err.message);
       redisClient.isErrorLogged = true;
     }
   });
 
   redisClient.on('connect', () => {
-    console.log('🔄 Redis Client connecting...');
+    console.log('Redis Client connecting...');
   });
 
   redisClient.on('ready', () => {
-    console.log('✅ Redis Client ready and connected');
+    console.log('Redis Client ready and connected');
     redisClient.isErrorLogged = false;
   });
 

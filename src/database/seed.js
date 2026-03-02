@@ -126,22 +126,22 @@ const sampleCountries = [
 
 const seedDatabase = async () => {
   try {
-    console.log('🌱 Starting database seeding...');
+    console.log('Starting database seeding...');
 
     const existingCountries = await Country.count();
     
     if (existingCountries > 0) {
-      console.log(`ℹ️  Database already contains ${existingCountries} countries.`);
+      console.log(`Database already contains ${existingCountries} countries.`);
       console.log('   Skipping seeding to prevent duplicates.');
       console.log('   If you want to re-seed, please clear the database first.');
       process.exit(0);
     }
 
-    console.log('📝 Inserting countries...');
+    console.log('Inserting countries...');
     const insertedCountries = await Country.bulkCreate(sampleCountries);
-    console.log(`✅ Inserted ${insertedCountries.length} countries.`);
+    console.log(`Inserted ${insertedCountries.length} countries.`);
 
-    console.log('📝 Inserting cities...');
+    console.log('Inserting cities...');
     const sampleCities = [
       { name: 'New York', country_id: insertedCountries[0].id, population: 8336817, latitude: 40.7128, longitude: -74.0060, is_capital: false },
       { name: 'Los Angeles', country_id: insertedCountries[0].id, population: 3979576, latitude: 34.0522, longitude: -118.2437, is_capital: false },
@@ -170,12 +170,12 @@ const seedDatabase = async () => {
     ];
 
     const insertedCities = await City.bulkCreate(sampleCities);
-    console.log(`✅ Inserted ${insertedCities.length} cities.`);
+    console.log(`Inserted ${insertedCities.length} cities.`);
 
-    console.log('✅ Database seeding completed successfully!');
-    console.log(`📊 Total: ${insertedCountries.length} countries and ${insertedCities.length} cities`);
+    console.log('Database seeding completed successfully!');
+    console.log(`Total: ${insertedCountries.length} countries and ${insertedCities.length} cities`);
     console.log('');
-    console.log('⚠️  NOTE: This is sample data. For production, you should:');
+    console.log('NOTE: This is sample data. For production, you should:');
     console.log('   1. Download a complete dataset (1000+ records)');
     console.log('   2. Update this seed script to import the full dataset');
     console.log('   3. See README.md for recommended data sources');
@@ -183,7 +183,7 @@ const seedDatabase = async () => {
     process.exit(0);
 
   } catch (error) {
-    console.error('❌ Database seeding failed:', error);
+    console.error('Database seeding failed:', error);
     process.exit(1);
   }
 };

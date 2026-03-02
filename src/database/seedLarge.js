@@ -549,13 +549,13 @@ const generateLargeDataset = () => {
 
 const seedLargeDatabase = async () => {
   try {
-    console.log('🌱 Starting LARGE dataset seeding...');
-    console.log('📊 Target: 195 countries + 1000+ cities');
+    console.log('Starting LARGE dataset seeding...');
+    console.log('Target: 195 countries + 1000+ cities');
 
     const existingCountries = await Country.count();
     
     if (existingCountries > 0) {
-      console.log(`ℹ️  Database already contains ${existingCountries} countries.`);
+      console.log(`Database already contains ${existingCountries} countries.`);
       console.log('   Skipping seeding to prevent duplicates.');
       console.log('   To re-seed: npm run db:reset');
       process.exit(0);
@@ -565,7 +565,7 @@ const seedLargeDatabase = async () => {
 
     // Insert countries in batches
     const insertedCountries = await Country.bulkCreate(countries);
-    console.log(`✅ Inserted ${insertedCountries.length} countries.`);
+    console.log(`Inserted ${insertedCountries.length} countries.`);
 
     // Insert cities
     let totalCities = 0;
@@ -587,17 +587,17 @@ const seedLargeDatabase = async () => {
       }
     }
 
-    console.log(`✅ Inserted ${totalCities} cities.`);
+    console.log(`Inserted ${totalCities} cities.`);
     console.log('');
-    console.log('🎉 Large dataset seeding completed successfully!');
-    console.log(`📊 Total: ${insertedCountries.length} countries and ${totalCities} cities`);
+    console.log('Large dataset seeding completed successfully!');
+    console.log(`Total: ${insertedCountries.length} countries and ${totalCities} cities`);
     console.log('');
-    console.log('✅ Your API is ready with 1000+ records!');
+    console.log('Your API is ready with 1000+ records!');
 
     process.exit(0);
 
   } catch (error) {
-    console.error('❌ Large dataset seeding failed:', error);
+    console.error('Large dataset seeding failed:', error);
     process.exit(1);
   }
 };

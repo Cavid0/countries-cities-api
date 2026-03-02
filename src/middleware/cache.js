@@ -16,7 +16,7 @@ const cache = (duration = 300) => {
       const cachedData = await redisClient.get(cacheKey);
 
       if (cachedData) {
-        console.log(`✅ Cache HIT: ${cacheKey}`);
+        console.log(`Cache HIT: ${cacheKey}`);
         return res.status(200).json({
           ...JSON.parse(cachedData),
           cached: true,
@@ -24,7 +24,7 @@ const cache = (duration = 300) => {
         });
       }
 
-      console.log(`❌ Cache MISS: ${cacheKey}`);
+      console.log(`Cache MISS: ${cacheKey}`);
 
       const originalJson = res.json.bind(res);
 
@@ -36,7 +36,7 @@ const cache = (duration = 300) => {
               duration,
               JSON.stringify(data)
             );
-            console.log(`💾 Cached: ${cacheKey} for ${duration}s`);
+            console.log(`Cached: ${cacheKey} for ${duration}s`);
           } catch (cacheError) {
             console.error('Cache save error:', cacheError);
           }
@@ -60,7 +60,7 @@ const clearCache = async (pattern = '*') => {
     
     if (keys.length > 0) {
       await redisClient.del(keys);
-      console.log(`🗑️  Cleared ${keys.length} cache entries matching: ${pattern}`);
+      console.log(`Cleared ${keys.length} cache entries matching: ${pattern}`);
       return keys.length;
     }
     

@@ -6,15 +6,15 @@ const sequelize = require('../config/database');
 const importCountriesFromAPI = async () => {
   try {
     await sequelize.authenticate();
-    console.log('✅ Database connected');
+    console.log('Database connected');
 
-    console.log('🔄 Fetching data from REST Countries API...');
+    console.log('Fetching data from REST Countries API...');
     
     const response = await axios.get('https://restcountries.com/v3.1/all');
     const countries = response.data;
     
-    console.log(`📥 Received ${countries.length} countries`);
-    console.log('💾 Importing into database...');
+    console.log(`Received ${countries.length} countries`);
+    console.log('Importing into database...');
     
     let imported = 0;
     let skipped = 0;
@@ -51,20 +51,20 @@ const importCountriesFromAPI = async () => {
         }
       } catch (error) {
         errors++;
-        console.error(`\n❌ Error importing ${country.name.common}:`, error.message);
+        console.error(`\nError importing ${country.name.common}:`, error.message);
       }
     }
     
-    console.log(`\n\n✅ Import completed!`);
+    console.log(`\n\nImport completed!`);
     console.log(`   Total countries: ${countries.length}`);
-    console.log(`   ✅ Imported: ${imported}`);
-    console.log(`   ⏭️  Skipped (already exists): ${skipped}`);
-    console.log(`   ❌ Errors: ${errors}`);
-    console.log('\n💡 Tip: Run "npm run db:seed" to add sample cities');
+    console.log(`   Imported: ${imported}`);
+    console.log(`   Skipped (already exists): ${skipped}`);
+    console.log(`   Errors: ${errors}`);
+    console.log('\nTip: Run "npm run db:seed" to add sample cities');
     
     process.exit(0);
   } catch (error) {
-    console.error('\n❌ Import failed:', error.message);
+    console.error('\nImport failed:', error.message);
     process.exit(1);
   }
 };
