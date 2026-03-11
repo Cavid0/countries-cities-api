@@ -16,7 +16,17 @@ const app = express();
 
 const initGraphQL = async () => {
   const { ApolloServer } = require('apollo-server-express');
-  const apolloServer = new ApolloServer({ typeDefs, resolvers, introspection: true });
+  const { ApolloServerPluginLandingPageLocalDefault } = require('apollo-server-core');
+  
+  const apolloServer = new ApolloServer({ 
+    typeDefs, 
+    resolvers, 
+    introspection: true,
+    plugins: [
+      ApolloServerPluginLandingPageLocalDefault({ embed: true })
+    ]
+  });
+  
   await apolloServer.start();
   apolloServer.applyMiddleware({ app, path: '/graphql' });
   console.log('GraphQL endpoint available at /graphql');
