@@ -16,12 +16,13 @@ const setupOAuth = (app) => {
     }, async (accessToken, refreshToken, profile, done) => {
       try {
         const email = profile.emails[0].value;
-        const username = profile.displayName.replace(/\s+/g, '').toLowerCase().substring(0, 50);
+        const cleanName = profile.displayName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+        const username = (cleanName || 'user').substring(0, 20) + Math.floor(Math.random() * 1000);
 
         let [user, created] = await User.findOrCreate({
           where: { email },
           defaults: {
-            username: username + Math.floor(Math.random() * 1000),
+            username: username,
             email,
             password: require('crypto').randomBytes(32).toString('hex'),
             role: 'user'
