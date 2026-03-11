@@ -144,11 +144,24 @@ GET /api/v1/auth/google           - Google OAuth login
 GET /api/v1/auth/google/callback  - Google OAuth callback
 ```
 
+**Live Link (Render):**
+- Login: `https://countries-cities-api-1.onrender.com/api/v1/auth/google`
+
+**Localhost:**
+- Login: `http://localhost:3000/api/v1/auth/google`
+
 ### GraphQL
 
 ```
-POST /graphql - GraphQL endpoint (with Apollo Studio playground)
+POST /graphql - GraphQL endpoint
+GET  /graphql - GraphQL Apollo Studio playground (in browser)
 ```
+
+**Live Link (Render):**
+- Playground: `https://countries-cities-api-1.onrender.com/graphql`
+
+**Localhost:**
+- Playground: `http://localhost:3000/graphql`
 
 Example GraphQL query:
 ```graphql
