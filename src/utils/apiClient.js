@@ -1,8 +1,5 @@
 const axios = require('axios');
 
-/**
- * HTTP client wrapper with error handling
- */
 class ApiClient {
   constructor(baseURL, timeout = 10000) {
     this.client = axios.create({
@@ -13,10 +10,8 @@ class ApiClient {
       }
     });
 
-    // Request interceptor
     this.client.interceptors.request.use(
       (config) => {
-        // You can add auth tokens here
         return config;
       },
       (error) => {
@@ -24,18 +19,14 @@ class ApiClient {
       }
     );
 
-    // Response interceptor
     this.client.interceptors.response.use(
       (response) => response,
       (error) => {
         if (error.response) {
-          // Server responded with error status
           console.error('API Error:', error.response.status, error.response.data);
         } else if (error.request) {
-          // Request made but no response
           console.error('Network Error:', error.message);
         } else {
-          // Something else happened
           console.error('Error:', error.message);
         }
         return Promise.reject(error);

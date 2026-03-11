@@ -60,7 +60,6 @@ const importCountriesFromAPI = async () => {
     console.log(`   Imported: ${imported}`);
     console.log(`   Skipped (already exists): ${skipped}`);
     console.log(`   Errors: ${errors}`);
-    console.log('\nTip: Run "npm run db:seed" to add sample cities');
     
     process.exit(0);
   } catch (error) {
@@ -68,12 +67,5 @@ const importCountriesFromAPI = async () => {
     process.exit(1);
   }
 };
-
-console.log(`
-╔════════════════════════════════════════╗
-║   Countries Data Import Utility        ║
-║   Source: REST Countries API           ║
-╚════════════════════════════════════════╝
-`);
 
 importCountriesFromAPI();

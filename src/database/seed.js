@@ -174,11 +174,6 @@ const seedDatabase = async () => {
 
     console.log('Database seeding completed successfully!');
     console.log(`Total: ${insertedCountries.length} countries and ${insertedCities.length} cities`);
-    console.log('');
-    console.log('NOTE: This is sample data. For production, you should:');
-    console.log('   1. Download a complete dataset (1000+ records)');
-    console.log('   2. Update this seed script to import the full dataset');
-    console.log('   3. See README.md for recommended data sources');
 
     process.exit(0);
 

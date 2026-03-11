@@ -65,7 +65,7 @@ const generateLargeDataset = () => {
     { name: 'Germany', code: 'DE', capital: 'Berlin', population: 83783942, area: 357114, region: 'Europe', subregion: 'Central Europe', latitude: 51.165691, longitude: 10.451526, flag_url: 'https://flagcdn.com/de.svg' },
     { name: 'Ghana', code: 'GH', capital: 'Accra', population: 31072940, area: 238533, region: 'Africa', subregion: 'Western Africa', latitude: 7.946527, longitude: -1.023194, flag_url: 'https://flagcdn.com/gh.svg' },
     { name: 'Greece', code: 'GR', capital: 'Athens', population: 10423054, area: 131990, region: 'Europe', subregion: 'Southern Europe', latitude: 39.074208, longitude: 21.824312, flag_url: 'https://flagcdn.com/gr.svg' },
-    // ... Continuing with all 195 countries
+
     { name: 'United Kingdom', code: 'GB', capital: 'London', population: 67886011, area: 242900, region: 'Europe', subregion: 'Northern Europe', latitude: 55.378051, longitude: -3.435973, flag_url: 'https://flagcdn.com/gb.svg' },
     { name: 'Japan', code: 'JP', capital: 'Tokyo', population: 126476461, area: 377930, region: 'Asia', subregion: 'Eastern Asia', latitude: 36.204824, longitude: 138.252924, flag_url: 'https://flagcdn.com/jp.svg' },
     { name: 'India', code: 'IN', capital: 'New Delhi', population: 1380004385, area: 3287590, region: 'Asia', subregion: 'Southern Asia', latitude: 20.593684, longitude: 78.96288, flag_url: 'https://flagcdn.com/in.svg' },
@@ -114,7 +114,7 @@ const generateLargeDataset = () => {
     { name: 'Mongolia', code: 'MN', capital: 'Ulaanbaatar', population: 3278290, area: 1564110, region: 'Asia', subregion: 'Eastern Asia', latitude: 46.862496, longitude: 103.846656, flag_url: 'https://flagcdn.com/mn.svg' },
     { name: 'North Korea', code: 'KP', capital: 'Pyongyang', population: 25778816, area: 120538, region: 'Asia', subregion: 'Eastern Asia', latitude: 40.339852, longitude: 127.510093, flag_url: 'https://flagcdn.com/kp.svg' },
     { name: 'Laos', code: 'LA', capital: 'Vientiane', population: 7275560, area: 236800, region: 'Asia', subregion: 'South-Eastern Asia', latitude: 19.85627, longitude: 102.495496, flag_url: 'https://flagcdn.com/la.svg' },
-    // Africa - 54 total
+
     { name: 'Nigeria', code: 'NG', capital: 'Abuja', population: 206139589, area: 923768, region: 'Africa', subregion: 'Western Africa', latitude: 9.081999, longitude: 8.675277, flag_url: 'https://flagcdn.com/ng.svg' },
     { name: 'South Africa', code: 'ZA', capital: 'Pretoria', population: 59308690, area: 1221037, region: 'Africa', subregion: 'Southern Africa', latitude: -30.559482, longitude: 22.937506, flag_url: 'https://flagcdn.com/za.svg' },
     { name: 'Kenya', code: 'KE', capital: 'Nairobi', population: 53771296, area: 580367, region: 'Africa', subregion: 'Eastern Africa', latitude: -0.023559, longitude: 37.906193, flag_url: 'https://flagcdn.com/ke.svg' },
@@ -133,7 +133,7 @@ const generateLargeDataset = () => {
     { name: 'Senegal', code: 'SN', capital: 'Dakar', population: 16743927, area: 196722, region: 'Africa', subregion: 'Western Africa', latitude: 14.497401, longitude: -14.452362, flag_url: 'https://flagcdn.com/sn.svg' },
     { name: 'Mali', code: 'ML', capital: 'Bamako', population: 20250833, area: 1240192, region: 'Africa', subregion: 'Western Africa', latitude: 17.570692, longitude: -3.996166, flag_url: 'https://flagcdn.com/ml.svg' },
     { name: 'Niger', code: 'NE', capital: 'Niamey', population: 24206644, area: 1267000, region: 'Africa', subregion: 'Western Africa', latitude: 17.607789, longitude: 8.081666, flag_url: 'https://flagcdn.com/ne.svg' },
-    // Americas
+
     { name: 'Peru', code: 'PE', capital: 'Lima', population: 32971854, area: 1285216, region: 'Americas', subregion: 'South America', latitude: -9.189967, longitude: -75.015152, flag_url: 'https://flagcdn.com/pe.svg' },
     { name: 'Venezuela', code: 'VE', capital: 'Caracas', population: 28435940, area: 916445, region: 'Americas', subregion: 'South America', latitude: 6.42375, longitude: -66.58973, flag_url: 'https://flagcdn.com/ve.svg' },
     { name: 'Uruguay', code: 'UY', capital: 'Montevideo', population: 3473730, area: 181034, region: 'Americas', subregion: 'South America', latitude: -32.522779, longitude: -55.765835, flag_url: 'https://flagcdn.com/uy.svg' },
@@ -142,10 +142,9 @@ const generateLargeDataset = () => {
     { name: 'Honduras', code: 'HN', capital: 'Tegucigalpa', population: 9904607, area: 112492, region: 'Americas', subregion: 'Central America', latitude: 15.199999, longitude: -86.241905, flag_url: 'https://flagcdn.com/hn.svg' },
     { name: 'Nicaragua', code: 'NI', capital: 'Managua', population: 6624554, area: 130373, region: 'Americas', subregion: 'Central America', latitude: 12.865416, longitude: -85.207229, flag_url: 'https://flagcdn.com/ni.svg' },
     { name: 'Panama', code: 'PA', capital: 'Panama City', population: 4314767, area: 75417, region: 'Americas', subregion: 'Central America', latitude: 8.537981, longitude: -80.782127, flag_url: 'https://flagcdn.com/pa.svg' },
-    // Oceania
     { name: 'New Zealand', code: 'NZ', capital: 'Wellington', population: 4822233, area: 270467, region: 'Oceania', subregion: 'Australia and New Zealand', latitude: -40.900557, longitude: 174.885971, flag_url: 'https://flagcdn.com/nz.svg' },
     { name: 'Papua New Guinea', code: 'PG', capital: 'Port Moresby', population: 8947024, area: 462840, region: 'Oceania', subregion: 'Melanesia', latitude: -6.314993, longitude: 143.95555, flag_url: 'https://flagcdn.com/pg.svg' },
-    // More European countries
+
     { name: 'Slovakia', code: 'SK', capital: 'Bratislava', population: 5459642, area: 49037, region: 'Europe', subregion: 'Central Europe', latitude: 48.669026, longitude: 19.699024, flag_url: 'https://flagcdn.com/sk.svg' },
     { name: 'Slovenia', code: 'SI', capital: 'Ljubljana', population: 2078938, area: 20273, region: 'Europe', subregion: 'Southern Europe', latitude: 46.151241, longitude: 14.995463, flag_url: 'https://flagcdn.com/si.svg' },
     { name: 'Serbia', code: 'RS', capital: 'Belgrade', population: 8737371, area: 88361, region: 'Europe', subregion: 'Southern Europe', latitude: 44.016521, longitude: 21.005859, flag_url: 'https://flagcdn.com/rs.svg' },
@@ -160,11 +159,6 @@ const generateLargeDataset = () => {
     { name: 'Ukraine', code: 'UA', capital: 'Kyiv', population: 43733762, area: 603628, region: 'Europe', subregion: 'Eastern Europe', latitude: 48.379433, longitude: 31.16558, flag_url: 'https://flagcdn.com/ua.svg' }
   ];
 
-  // ============================================
-  // CITY GENERATOR - 5-10 cities per country
-  // This will create 1000+ cities total
-  // ============================================
-  
   const citiesPerCountry = {
     'US': [
       { name: 'New York', population: 8336817, latitude: 40.7128, longitude: -74.006, is_capital: false },
@@ -563,11 +557,9 @@ const seedLargeDatabase = async () => {
 
     const { countries, citiesPerCountry } = generateLargeDataset();
 
-    // Insert countries in batches
     const insertedCountries = await Country.bulkCreate(countries);
     console.log(`Inserted ${insertedCountries.length} countries.`);
 
-    // Insert cities
     let totalCities = 0;
 
     for (const country of insertedCountries) {
@@ -581,7 +573,6 @@ const seedLargeDatabase = async () => {
         await City.bulkCreate(citiesWithCountryId);
         totalCities += cities.length;
         
-        // Progress indicator
         if (totalCities % 100 === 0) {
         }
       }
@@ -602,5 +593,4 @@ const seedLargeDatabase = async () => {
   }
 };
 
-// Run seeding
 seedLargeDatabase();
