@@ -222,7 +222,7 @@ Platform: Render.com with PostgreSQL 14 and Upstash Redis. Auto-deploy from GitH
 
 ```
 src/
-  config/         - database.js, redis.js, auth.js
+  config/         - database.js, redis.js, auth.js, oauth.js, graphql.js
   controllers/    - authController, countryController, cityController
   middleware/     - auth, cache, validate, errorHandler, notFound, rateLimiter
   models/         - User, Country, City, index
@@ -247,7 +247,8 @@ src/
 1. Create a Web Service on Render.com, connect the GitHub repo, set build command `npm install` and start command `npm start`.
 2. Add a PostgreSQL database service and copy the connection URL.
 3. Set environment variables in the Render dashboard (DATABASE_URL, JWT_SECRET, JWT_REFRESH_SECRET, REDIS_URL, REDIS_TOKEN).
-4. Run `npm run db:setup` and `npm run db:seed:large` via the Render shell.
+4. For Google OAuth, set `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and `GOOGLE_CALLBACK_URL` in the Render environment variables.
+5. Run `npm run db:setup` and `npm run db:seed:large` via the Render shell.
 
 ## License
 
