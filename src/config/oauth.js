@@ -30,6 +30,7 @@ const setupOAuth = (app) => {
 
         return done(null, user);
       } catch (error) {
+        console.error('GOOGLE OAUTH ERROR:', error);
         return done(error, null);
       }
     }));
