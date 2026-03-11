@@ -19,7 +19,7 @@ A REST API built with Node.js, Express.js, PostgreSQL, and Redis providing geogr
 
 Authentication uses JWT with access/refresh token rotation and bcrypt password hashing. Role-based access control separates public read endpoints from admin-only write endpoints.
 
-The database runs on PostgreSQL via Sequelize ORM with 151 countries and 264+ cities. Country and city records are linked by foreign key with cascade operations.
+The database runs on PostgreSQL via Sequelize ORM with 191 countries and 809 cities (1000+ total records). Country and city records are linked by foreign key with cascade operations.
 
 Caching is handled by Upstash Redis (serverless). Cache is invalidated automatically on mutations and falls back gracefully if Redis is unavailable.
 
@@ -97,7 +97,7 @@ npm run dev            # Development with nodemon
 npm start              # Production server
 npm run db:setup       # Create tables
 npm run db:seed        # Seed sample data (5 countries)
-npm run db:seed:large  # Full dataset (151 countries, 264+ cities)
+npm run db:seed:large  # Full dataset (191 countries, 809+ cities)
 npm run db:reset       # Drop and recreate all tables
 ```
 
@@ -135,6 +135,41 @@ DELETE /api/v1/countries/:id  - Delete country
 POST   /api/v1/cities         - Create city
 PUT    /api/v1/cities/:id     - Update city
 DELETE /api/v1/cities/:id     - Delete city
+```
+
+### OAuth
+
+```
+GET /api/v1/auth/google           - Google OAuth login
+GET /api/v1/auth/google/callback  - Google OAuth callback
+```
+
+### GraphQL
+
+```
+POST /graphql - GraphQL endpoint (with Apollo Studio playground)
+```
+
+Example GraphQL query:
+```graphql
+{
+  countries(page: 1, size: 5, region: "Europe") {
+    totalItems
+    items {
+      name
+      code
+      capital
+      cities {
+        name
+        population
+      }
+    }
+  }
+  stats {
+    totalCountries
+    totalCities
+  }
+}
 ```
 
 ### Example requests

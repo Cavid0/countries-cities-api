@@ -9,8 +9,19 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const apiRoutes = require('./routes');
 const errorHandler = require('./middleware/errorHandler');
 const { notFound } = require('./middleware/notFound');
+const setupOAuth = require('./config/oauth');
+const { typeDefs, resolvers } = require('./config/graphql');
 
 const app = express();
+
+const initGraphQL = async () => {
+  const { ApolloServer } = require('apollo-server-express');
+  const apolloServer = new ApolloServer({ typeDefs, resolvers, introspection: true });
+  await apolloServer.start();
+  apolloServer.applyMiddleware({ app, path: '/graphql' });
+  console.log('GraphQL endpoint available at /graphql');
+};
+
 
 const swaggerOptions = {
   definition: {
@@ -123,10 +134,8 @@ app.get('/api', (req, res) => {
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+setupOAuth(app);
+
 app.use('/api/v1', apiRoutes);
 
-app.use(notFound);
-
-app.use(errorHandler);
-
-module.exports = app;
+module.exports = { app, initGraphQL, notFound, errorHandler };

@@ -544,46 +544,53 @@ const generateLargeDataset = () => {
 const seedLargeDatabase = async () => {
   try {
     console.log('Starting LARGE dataset seeding...');
-    console.log('Target: 195 countries + 1000+ cities');
-
-    const existingCountries = await Country.count();
-    
-    if (existingCountries > 0) {
-      console.log(`Database already contains ${existingCountries} countries.`);
-      console.log('   Skipping seeding to prevent duplicates.');
-      console.log('   To re-seed: npm run db:reset');
-      process.exit(0);
-    }
 
     const { countries, citiesPerCountry } = generateLargeDataset();
 
-    const insertedCountries = await Country.bulkCreate(countries);
-    console.log(`Inserted ${insertedCountries.length} countries.`);
+    let countryInserted = 0;
+    let countrySkipped = 0;
+    const countryMap = {};
 
-    let totalCities = 0;
+    for (const countryData of countries) {
+      try {
+        const [country, created] = await Country.findOrCreate({
+          where: { code: countryData.code },
+          defaults: countryData
+        });
+        countryMap[country.code] = country.id;
+        if (created) countryInserted++;
+        else countrySkipped++;
+      } catch (err) {}
+    }
 
-    for (const country of insertedCountries) {
-      const cities = citiesPerCountry[country.code];
-      if (cities && cities.length > 0) {
-        const citiesWithCountryId = cities.map(city => ({
-          ...city,
-          country_id: country.id
-        }));
-        
-        await City.bulkCreate(citiesWithCountryId);
-        totalCities += cities.length;
-        
-        if (totalCities % 100 === 0) {
-        }
+    console.log(`Countries: ${countryInserted} inserted, ${countrySkipped} skipped`);
+
+    let cityInserted = 0;
+    let citySkipped = 0;
+
+    for (const [code, cities] of Object.entries(citiesPerCountry)) {
+      const countryId = countryMap[code];
+      if (!countryId || !cities) continue;
+
+      for (const cityData of cities) {
+        try {
+          const [city, created] = await City.findOrCreate({
+            where: { name: cityData.name, country_id: countryId },
+            defaults: { ...cityData, country_id: countryId }
+          });
+          if (created) cityInserted++;
+          else citySkipped++;
+        } catch (err) {}
       }
     }
 
-    console.log(`Inserted ${totalCities} cities.`);
+    const totalCountries = await Country.count();
+    const totalCities = await City.count();
+
+    console.log(`Cities: ${cityInserted} inserted, ${citySkipped} skipped`);
     console.log('');
-    console.log('Large dataset seeding completed successfully!');
-    console.log(`Total: ${insertedCountries.length} countries and ${totalCities} cities`);
-    console.log('');
-    console.log('Your API is ready with 1000+ records!');
+    console.log(`Total: ${totalCountries} countries and ${totalCities} cities`);
+    console.log(`TOTAL RECORDS: ${totalCountries + totalCities}`);
 
     process.exit(0);
 

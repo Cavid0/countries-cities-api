@@ -1,5 +1,5 @@
 require('dotenv').config();
-const app = require('./app');
+const { app, initGraphQL, notFound, errorHandler } = require('./app');
 const sequelize = require('./config/database');
 const redisClient = require('./config/redis');
 
@@ -22,6 +22,11 @@ const startServer = async () => {
       console.warn('Redis not available - caching will be disabled');
       console.warn('Redis error:', redisError.message);
     }
+
+    await initGraphQL();
+
+    app.use(notFound);
+    app.use(errorHandler);
 
     app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
