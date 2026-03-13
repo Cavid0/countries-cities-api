@@ -16,14 +16,14 @@ const app = express();
 
 const initGraphQL = async () => {
   const { ApolloServer } = require('apollo-server-express');
-  const { ApolloServerPluginLandingPageLocalDefault } = require('apollo-server-core');
+  const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core');
   
   const apolloServer = new ApolloServer({ 
     typeDefs, 
     resolvers, 
     introspection: true,
     plugins: [
-      ApolloServerPluginLandingPageLocalDefault({ embed: true })
+      ApolloServerPluginLandingPageGraphQLPlayground()
     ]
   });
   
