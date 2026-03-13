@@ -211,6 +211,25 @@ curl -X POST https://countries-cities-api-1.onrender.com/api/v1/countries \\
   -d '{"name":"New Country","code":"NC","capital":"Capital","population":1000000,"region":"Europe"}'
 ```
 
+### Viewing the 1000+ Data
+
+Due to performance and rate-limiting reasons, the API does not return all 1000+ records in a single request. Data is returned in paginated chunks. The maximum chunk size is 100 items per request.
+
+To view all data, you can paginate through the results:
+- **Countries (191 total):** `GET /api/v1/countries?page=1&size=100` (then page=2)
+- **Cities (809 total):** `GET /api/v1/cities?page=1&size=100` (then page=2, 3... 9)
+
+**Using GraphQL:**
+To see exactly how many records are in your production database, run this GraphQL query at `/graphql`:
+```graphql
+query {
+  stats {
+    totalCountries
+    totalCities
+  }
+}
+```
+
 ## Live Deployment
 
 - Production API: https://countries-cities-api-1.onrender.com
